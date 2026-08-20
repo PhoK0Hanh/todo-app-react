@@ -9,7 +9,7 @@ function App() {
         description="Quản lý công việc của bạn một cách hiệu quả."
       />
       <p>Xin chào, tôi đang học React.</p>
-      <p>Tôi sẽ xây dựng ứng dụng Todo list.</p>
+      <p>aaaTôi sẽ xây dựng ứng dụng Todo list.</p>
     </div>
   );
 }
