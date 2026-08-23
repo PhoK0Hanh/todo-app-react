@@ -3,15 +3,20 @@ import Header from "./Header";
 import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("");
+  const [todos, setTodos] = useState([
+    { id: 1, text: "Do exercises" },
+    { id: 2, text: "Read a book" },
+  ]);
+  const [todoInput, setTodoInput] = useState("");
 
-  function handleIncrease() {
-    setCount((prevCount) => prevCount + 1);
+  function handleAddTodo() {
+    if (todoInput.trim() !== "") {
+      setTodos([...todos, { id: Date.now(), text: todoInput }]);
+      setTodoInput("");
+    }
   }
-
-  function handleDecrease() {
-    setCount((prevCount) => Math.max(prevCount - 1, 0));
+  function handleDeleteTodo(id) {
+    setTodos(todos.filter((todo) => todo.id !== id));
   }
 
   return (
@@ -19,19 +24,26 @@ function App() {
       <Header
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
-        onIncrease={handleIncrease}
-        onDecrease={handleDecrease}
       />
-      <p>Hello, I am learning React.</p>
-      <p>I will build a Todo list application.</p>
-      <h1>Count: {count}</h1>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
       <input
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={todoInput}
+        onChange={(e) => setTodoInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleAddTodo();
+          }
+        }}
       />
-      <p>Name: {name}</p>
-      <button onClick={() => setName("")}>Clear</button>
+      <button onClick={handleAddTodo}>Add</button>
     </div>
   );
 }
