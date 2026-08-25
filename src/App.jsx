@@ -1,22 +1,33 @@
 import "./App.css";
 import Header from "./Header";
+import TodoItem from "./TodoItem";
 import { useState } from "react";
 
 function App() {
   const [todos, setTodos] = useState([
-    { id: 1, text: "Do exercises" },
-    { id: 2, text: "Read a book" },
+    { id: 1, text: "Do exercises", completed: false },
+    { id: 2, text: "Read a book", completed: false },
   ]);
   const [todoInput, setTodoInput] = useState("");
 
   function handleAddTodo() {
     if (todoInput.trim() !== "") {
-      setTodos([...todos, { id: Date.now(), text: todoInput }]);
+      setTodos([
+        ...todos,
+        { id: Date.now(), text: todoInput, completed: false },
+      ]);
       setTodoInput("");
     }
   }
   function handleDeleteTodo(id) {
     setTodos(todos.filter((todo) => todo.id !== id));
+  }
+  function handleToggleComplete(id) {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
   }
 
   return (
@@ -27,10 +38,12 @@ function App() {
       />
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.text}
-            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
-          </li>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={handleToggleComplete}
+            onDelete={handleDeleteTodo}
+          />
         ))}
       </ul>
       <input
