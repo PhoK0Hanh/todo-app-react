@@ -29,6 +29,11 @@ function App() {
       ),
     );
   }
+  function handleEditTodo(id, newText) {
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
+    );
+  }
 
   return (
     <div>
@@ -41,6 +46,7 @@ function App() {
           <TodoItem
             key={todo.id}
             todo={todo}
+            onEdit={handleEditTodo}
             onToggle={handleToggleComplete}
             onDelete={handleDeleteTodo}
           />

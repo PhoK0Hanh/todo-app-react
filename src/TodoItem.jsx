@@ -1,17 +1,54 @@
-function TodoItem({ todo, onToggle, onDelete }) {
+import { useState } from "react";
+function TodoItem({ todo, onToggle, onDelete, onEdit }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(todo.text);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    if (editText.trim() === "") {
+      alert("Todo text cannot be empty.");
+      return;
+    }
+    onEdit(todo.id, editText.trim());
+    setIsEditing(false);
+  };
+
   return (
     <li>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => onToggle(todo.id)}
-      />
-      <span
-        style={{ textDecoration: todo.completed ? "line-through" : "none" }}
-      >
-        {todo.text}
-      </span>
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSave();
+              }
+            }}
+          />
+          <button onClick={handleSave}>Save</button>
+          <button onClick={() => setIsEditing(false)}>Cancel</button>
+        </>
+      ) : (
+        <>
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => onToggle(todo.id)}
+          />
+          <span
+            style={{ textDecoration: todo.completed ? "line-through" : "none" }}
+          >
+            {todo.text}
+          </span>
+          <button onClick={() => onDelete(todo.id)}>Delete</button>
+          <button onClick={handleEdit}>Edit</button>
+        </>
+      )}
     </li>
   );
 }
