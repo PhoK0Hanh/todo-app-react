@@ -1,8 +1,8 @@
 import "./App.css";
 import Header from "./Header";
-import TodoItem from "./TodoItem";
 import { useState } from "react";
 import TodoForm from "./TodoForm";
+import TodoList from "./TodoList";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -11,7 +11,11 @@ function App() {
   ]);
 
   function handleAddTodo(newTodo) {
-    setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+    // setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      { id: Date.now(), text: newTodo, completed: false },
+    ]);
   }
   function handleDeleteTodo(id) {
     setTodos(todos.filter((todo) => todo.id !== id));
@@ -35,17 +39,12 @@ function App() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
-      <ul>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onEdit={handleEditTodo}
-            onToggle={handleToggleComplete}
-            onDelete={handleDeleteTodo}
-          />
-        ))}
-      </ul>
+      <TodoList
+        todos={todos}
+        onEdit={handleEditTodo}
+        onToggle={handleToggleComplete}
+        onDelete={handleDeleteTodo}
+      />
       <TodoForm onAdd={handleAddTodo} />
     </div>
   );
