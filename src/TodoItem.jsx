@@ -45,6 +45,7 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
           >
             {todo.text}
           </span>
+          <span>{todo.completed ? " - Completed" : " - Pending"}</span>
           <button onClick={() => onDelete(todo.id)}>Delete</button>
           <button onClick={handleEdit}>Edit</button>
         </>

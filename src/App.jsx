@@ -10,26 +10,31 @@ function App() {
     { id: 2, text: "Read a book", completed: false },
   ]);
 
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter((todo) => todo.completed).length;
+  const remainingTodos = totalTodos - completedTodos;
+
   function handleAddTodo(newTodo) {
-    // setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
     setTodos((prevTodos) => [
       ...prevTodos,
       { id: Date.now(), text: newTodo, completed: false },
     ]);
   }
   function handleDeleteTodo(id) {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   }
   function handleToggleComplete(id) {
-    setTodos(
-      todos.map((todo) =>
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo,
       ),
     );
   }
   function handleEditTodo(id, newText) {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo)),
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, text: newText } : todo,
+      ),
     );
   }
 
@@ -39,6 +44,9 @@ function App() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
+      <p>Total: {totalTodos}</p>
+      <p>Completed: {completedTodos}</p>
+      <p>Remaining: {remainingTodos}</p>
       <TodoList
         todos={todos}
         onEdit={handleEditTodo}
