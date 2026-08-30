@@ -10,9 +10,21 @@ function App() {
     { id: 2, text: "Read a book", completed: false },
   ]);
 
+  const [filter, setFilter] = useState("all");
+
   const totalTodos = todos.length;
   const completedTodos = todos.filter((todo) => todo.completed).length;
   const remainingTodos = totalTodos - completedTodos;
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") {
+      return !todo.completed;
+    }
+    if (filter === "completed") {
+      return todo.completed;
+    }
+    return true;
+  });
 
   function handleAddTodo(newTodo) {
     setTodos((prevTodos) => [
@@ -44,11 +56,18 @@ function App() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
-      <p>Total: {totalTodos}</p>
-      <p>Completed: {completedTodos}</p>
-      <p>Remaining: {remainingTodos}</p>
+      <div>
+        <p>Total: {totalTodos}</p>
+        <p>Completed: {completedTodos}</p>
+        <p>Remaining: {remainingTodos}</p>
+      </div>
+      <div>
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("active")}>Active</button>
+        <button onClick={() => setFilter("completed")}>Completed</button>
+      </div>
       <TodoList
-        todos={todos}
+        todos={filteredTodos}
         onEdit={handleEditTodo}
         onToggle={handleToggleComplete}
         onDelete={handleDeleteTodo}
