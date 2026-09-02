@@ -1,14 +1,24 @@
 import "./App.css";
 import Header from "./Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Do exercises", completed: false },
-    { id: 2, text: "Read a book", completed: false },
-  ]);
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+    if (savedTodos) {
+      return JSON.parse(savedTodos);
+    }
+    return [
+      { id: 1, text: "Do exercises", completed: false },
+      { id: 2, text: "Read a book", completed: false },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const [filter, setFilter] = useState("all");
 
