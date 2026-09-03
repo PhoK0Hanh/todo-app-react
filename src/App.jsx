@@ -1,30 +1,23 @@
 import "./App.css";
 import Header from "./Header";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import useTodos from "./hooks/useTodos";
 
 function App() {
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-    if (savedTodos) {
-      return JSON.parse(savedTodos);
-    }
-    return [
-      { id: 1, text: "Do exercises", completed: false },
-      { id: 2, text: "Read a book", completed: false },
-    ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  const {
+    todos,
+    addTodo,
+    deleteTodo,
+    toggleComplete,
+    editTodo,
+    totalTodos,
+    completedTodos,
+    remainingTodos,
+  } = useTodos();
 
   const [filter, setFilter] = useState("all");
-
-  const totalTodos = todos.length;
-  const completedTodos = todos.filter((todo) => todo.completed).length;
-  const remainingTodos = totalTodos - completedTodos;
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "active") {
@@ -35,30 +28,6 @@ function App() {
     }
     return true;
   });
-
-  function handleAddTodo(newTodo) {
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      { id: Date.now(), text: newTodo, completed: false },
-    ]);
-  }
-  function handleDeleteTodo(id) {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  }
-  function handleToggleComplete(id) {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
-  }
-  function handleEditTodo(id, newText) {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, text: newText } : todo,
-      ),
-    );
-  }
 
   return (
     <div>
@@ -78,11 +47,11 @@ function App() {
       </div>
       <TodoList
         todos={filteredTodos}
-        onEdit={handleEditTodo}
-        onToggle={handleToggleComplete}
-        onDelete={handleDeleteTodo}
+        onEdit={editTodo}
+        onToggle={toggleComplete}
+        onDelete={deleteTodo}
       />
-      <TodoForm onAdd={handleAddTodo} />
+      <TodoForm onAdd={addTodo} />
     </div>
   );
 }
