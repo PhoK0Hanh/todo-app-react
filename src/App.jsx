@@ -1,6 +1,6 @@
 import "./App.css";
 import Header from "./Header";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import useTodos from "./hooks/useTodos";
@@ -19,15 +19,15 @@ function App() {
 
   const [filter, setFilter] = useState("all");
 
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") {
-      return !todo.completed;
-    }
-    if (filter === "completed") {
-      return todo.completed;
-    }
-    return true;
-  });
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      if (filter === "active") return !todo.completed;
+
+      if (filter === "completed") return todo.completed;
+
+      return true;
+    });
+  }, [todos, filter]);
 
   return (
     <div>
