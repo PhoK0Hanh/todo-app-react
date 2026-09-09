@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import useTodos from "./hooks/useTodos";
+import CallbackDemo from "./CallbackDemo";
 
 function App() {
   const {
@@ -35,6 +36,7 @@ function App() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
+      <CallbackDemo />
       <div>
         <p>Total: {totalTodos}</p>
         <p>Completed: {completedTodos}</p>
