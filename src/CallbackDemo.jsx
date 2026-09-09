@@ -1,9 +1,14 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import CallbackChild from "./CallbackChild";
 
 function CallbackDemo() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
+  const [message, setMessage] = useState("Hello");
+
+  const user = useMemo(() => {
+    return { name: "Vũ" };
+  }, []);
 
   const handleClick = useCallback(() => {
     console.log("handleClick");
@@ -27,7 +32,13 @@ function CallbackDemo() {
         onChange={(e) => setName(e.target.value)}
       />
 
-      <CallbackChild onClick={handleClick} />
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      <CallbackChild onClick={handleClick} onMessage={message} onName={user} />
     </div>
   );
 }
