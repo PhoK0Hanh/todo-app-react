@@ -5,6 +5,8 @@ import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import useTodos from "./hooks/useTodos";
 import CallbackDemo from "./CallbackDemo";
+import UserContext from "./UserContext";
+import ThemeContext from "./ThemeContext";
 
 function App() {
   const {
@@ -30,13 +32,29 @@ function App() {
     });
   }, [todos, filter]);
 
+  const [theme, setTheme] = useState("white");
+
   return (
     <div>
       <Header
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
-      <CallbackDemo />
+      <button
+        onClick={() => {
+          if (theme == "white") {
+            setTheme("dark");
+          }
+          if (theme == "dark") {
+            setTheme("white");
+          }
+        }}
+      >
+        toggle Theme
+      </button>
+      <ThemeContext.Provider value={theme}>
+        <CallbackDemo />
+      </ThemeContext.Provider>
       <div>
         <p>Total: {totalTodos}</p>
         <p>Completed: {completedTodos}</p>

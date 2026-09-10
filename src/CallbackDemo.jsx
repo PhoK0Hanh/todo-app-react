@@ -1,10 +1,12 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useContext } from "react";
 import CallbackChild from "./CallbackChild";
+import ThemeContext from "./ThemeContext";
 
 function CallbackDemo() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("Hello");
+  const theme = useContext(ThemeContext);
 
   const user = useMemo(() => {
     return { name: "Vũ" };
@@ -23,6 +25,7 @@ function CallbackDemo() {
 
       <p>Count: {count}</p>
       <p>Name: {name}</p>
+      <p>Theme: {theme}</p>
 
       <button onClick={handleClick}>Increase</button>
 
