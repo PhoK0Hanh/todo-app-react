@@ -7,6 +7,7 @@ import useTodos from "./hooks/useTodos";
 import CallbackDemo from "./CallbackDemo";
 import UserContext from "./UserContext";
 import ThemeContext from "./ThemeContext";
+import LoadingDemo2 from "./LoadingDemo2";
 
 function App() {
   const {
@@ -55,6 +56,7 @@ function App() {
       <ThemeContext.Provider value={theme}>
         <CallbackDemo />
       </ThemeContext.Provider>
+      <LoadingDemo2 />
       <div>
         <p>Total: {totalTodos}</p>
         <p>Completed: {completedTodos}</p>

@@ -5,11 +5,15 @@ function TodoForm({ onAdd }) {
   const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim() !== "") {
-      onAdd(inputValue.trim());
-      setInputValue("");
-      inputRef.current.focus();
+    try {
+      e.preventDefault();
+      if (inputValue.trim() !== "") {
+        onAdd(inputValue.trim());
+        setInputValue("");
+        inputRef.current.focus();
+      }
+    } catch (error) {
+      console.log("Thêm Todo thất bại:", error.message);
     }
   };
 
