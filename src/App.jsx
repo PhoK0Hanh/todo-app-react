@@ -8,6 +8,7 @@ import CallbackDemo from "./CallbackDemo";
 import UserContext from "./UserContext";
 import ThemeContext from "./ThemeContext";
 import LoadingDemo2 from "./LoadingDemo2";
+import FetchDemo from "./FetchDemo";
 
 function App() {
   const {
@@ -41,7 +42,7 @@ function App() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
-      <button
+      {/* <button
         onClick={() => {
           if (theme == "white") {
             setTheme("dark");
@@ -52,11 +53,12 @@ function App() {
         }}
       >
         toggle Theme
-      </button>
-      <ThemeContext.Provider value={theme}>
+      </button> */}
+      {/* <ThemeContext.Provider value={theme}>
         <CallbackDemo />
       </ThemeContext.Provider>
-      <LoadingDemo2 />
+      <LoadingDemo2 /> */}
+      <FetchDemo />
       <div>
         <p>Total: {totalTodos}</p>
         <p>Completed: {completedTodos}</p>
