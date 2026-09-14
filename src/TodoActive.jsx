@@ -2,8 +2,9 @@ import TodoList from "./TodoList";
 import { useOutletContext } from "react-router-dom";
 
 function TodoActive() {
-  const { todos, editTodo, toggleComplete, deleteTodo } = useOutletContext();
-  const activeTodos = todos.filter((todo) => !todo.completed);
+  const { filteredTodos, editTodo, toggleComplete, deleteTodo } =
+    useOutletContext();
+  const activeTodos = filteredTodos.filter((todo) => !todo.completed);
   return (
     <TodoList
       todos={activeTodos}

@@ -1,9 +1,11 @@
 import TodoForm from "./TodoForm";
 import useTodos from "./hooks/useTodos";
 import FetchDemo from "./FetchDemo";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
 function TodoPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     todos,
     addTodo,
@@ -14,6 +16,15 @@ function TodoPage() {
     completedTodos,
     remainingTodos,
   } = useTodos();
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const searchValue = searchParams.get("search");
+  const filteredTodos = todos.filter((todo) => {
+    if (!searchValue) {
+      return true;
+    }
+
+    return todo.text.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   return (
     <div>
@@ -25,7 +36,7 @@ function TodoPage() {
         <p>Remaining: {remainingTodos}</p>
       </div>
       <NavLink
-        to="all"
+        to={searchValue ? `all?search=${searchValue}` : "all"}
         className={({ isActive }) => ({
           fontWeight: isActive ? "bold" : "normal",
         })}
@@ -34,7 +45,7 @@ function TodoPage() {
       </NavLink>{" "}
       |{" "}
       <NavLink
-        to="active"
+        to={searchValue ? `active?search=${searchValue}` : "active"}
         className={({ isActive }) => ({
           fontWeight: isActive ? "bold" : "normal",
         })}
@@ -43,16 +54,25 @@ function TodoPage() {
       </NavLink>{" "}
       |{" "}
       <NavLink
-        to="completed"
+        to={searchValue ? `completed?search=${searchValue}` : "completed"}
         className={({ isActive }) => ({
           fontWeight: isActive ? "bold" : "normal",
         })}
       >
         Completed
       </NavLink>
+      <div>
+        <p>Search:</p>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button onClick={() => setSearchParams({ search })}>Search</button>
+      </div>
       <Outlet
         context={{
-          todos,
+          filteredTodos,
           editTodo,
           toggleComplete,
           deleteTodo,
