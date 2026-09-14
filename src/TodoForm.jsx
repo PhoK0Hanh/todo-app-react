@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TodoForm({ onAdd }) {
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     try {
@@ -10,6 +12,7 @@ function TodoForm({ onAdd }) {
       if (inputValue.trim() !== "") {
         onAdd(inputValue.trim());
         setInputValue("");
+        navigate("/todos/all");
         inputRef.current.focus();
       }
     } catch (error) {

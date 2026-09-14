@@ -1,81 +1,77 @@
 import "./App.css";
-import Header from "./Header";
-import { useMemo, useState } from "react";
-import TodoForm from "./TodoForm";
-import TodoList from "./TodoList";
-import useTodos from "./hooks/useTodos";
-import CallbackDemo from "./CallbackDemo";
-import UserContext from "./UserContext";
-import ThemeContext from "./ThemeContext";
-import LoadingDemo2 from "./LoadingDemo2";
-import FetchDemo from "./FetchDemo";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  NavLink,
+  Navigate,
+} from "react-router-dom";
+import Home from "./Home";
+import TodoPage from "./TodoPage";
+import About from "./About";
+import Contact from "./Contact";
+import NotFound from "./NotFound";
+import TodoAll from "./TodoAll";
+import TodoActive from "./TodoActive";
+import TodoCompleted from "./TodoCompleted";
+import TodoDetail from "./TodoDetail";
 
 function App() {
-  const {
-    todos,
-    addTodo,
-    deleteTodo,
-    toggleComplete,
-    editTodo,
-    totalTodos,
-    completedTodos,
-    remainingTodos,
-  } = useTodos();
-
-  const [filter, setFilter] = useState("all");
-
-  const filteredTodos = useMemo(() => {
-    return todos.filter((todo) => {
-      if (filter === "active") return !todo.completed;
-
-      if (filter === "completed") return todo.completed;
-
-      return true;
-    });
-  }, [todos, filter]);
-
-  const [theme, setTheme] = useState("white");
-
   return (
     <div>
-      <Header
-        title="Todo App"
-        description="Managing your tasks efficiently with our Todo App."
-      />
-      {/* <button
-        onClick={() => {
-          if (theme == "white") {
-            setTheme("dark");
-          }
-          if (theme == "dark") {
-            setTheme("white");
-          }
-        }}
-      >
-        toggle Theme
-      </button> */}
-      {/* <ThemeContext.Provider value={theme}>
-        <CallbackDemo />
-      </ThemeContext.Provider>
-      <LoadingDemo2 /> */}
-      <FetchDemo />
-      <div>
-        <p>Total: {totalTodos}</p>
-        <p>Completed: {completedTodos}</p>
-        <p>Remaining: {remainingTodos}</p>
-      </div>
-      <div>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("active")}>Active</button>
-        <button onClick={() => setFilter("completed")}>Completed</button>
-      </div>
-      <TodoList
-        todos={filteredTodos}
-        onEdit={editTodo}
-        onToggle={toggleComplete}
-        onDelete={deleteTodo}
-      />
-      <TodoForm onAdd={addTodo} />
+      <BrowserRouter>
+        <nav>
+          <NavLink
+            to="/"
+            className={({ isActive }) => ({
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            Home
+          </NavLink>{" "}
+          |{" "}
+          <NavLink
+            to="/todos"
+            className={({ isActive }) => ({
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            Todos
+          </NavLink>{" "}
+          |{" "}
+          <NavLink
+            to="/about"
+            className={({ isActive }) => ({
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            About
+          </NavLink>{" "}
+          |{" "}
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => ({
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            Contact
+          </NavLink>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/todos" element={<TodoPage />}>
+            <Route index element={<Navigate to="all" replace />} />
+            <Route path="all" element={<TodoAll />} />
+            <Route path="active" element={<TodoActive />} />
+            <Route path="completed" element={<TodoCompleted />} />
+            <Route path=":id" element={<TodoDetail />} />
+          </Route>
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 function TodoItem({ todo, onToggle, onDelete, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
@@ -40,11 +41,15 @@ function TodoItem({ todo, onToggle, onDelete, onEdit }) {
             checked={todo.completed}
             onChange={() => onToggle(todo.id)}
           />
-          <span
-            style={{ textDecoration: todo.completed ? "line-through" : "none" }}
-          >
-            {todo.text}
-          </span>
+          <Link to={`/todos/${todo.id}`}>
+            <span
+              style={{
+                textDecoration: todo.completed ? "line-through" : "none",
+              }}
+            >
+              {todo.text}
+            </span>
+          </Link>
           <span>{todo.completed ? " - Completed" : " - Pending"}</span>
           <button onClick={() => onDelete(todo.id)}>Delete</button>
           <button onClick={handleEdit}>Edit</button>
