@@ -1,4 +1,5 @@
 import Header from "./Header";
+import AxiosDemo from "./AxiosDemo";
 function Home() {
   return (
     <div>
@@ -7,6 +8,7 @@ function Home() {
         title="Todo App"
         description="Managing your tasks efficiently with our Todo App."
       />
+      <AxiosDemo />
     </div>
   );
 }
