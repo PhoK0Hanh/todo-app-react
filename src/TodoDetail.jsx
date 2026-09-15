@@ -3,8 +3,9 @@ import { useOutletContext } from "react-router-dom";
 function TodoDetail() {
   const { id } = useParams();
   const todoId = Number(id);
-  const { todos, editTodo, toggleComplete, deleteTodo } = useOutletContext();
-  const todo = todos.find((todo) => todo.id === todoId);
+  const { filteredTodos, editTodo, toggleComplete, deleteTodo } =
+    useOutletContext();
+  const todo = filteredTodos.find((todo) => todo.id === todoId);
   const navigate = useNavigate();
   return (
     <div>
