@@ -61,6 +61,7 @@ function TodoPage() {
       >
         Completed
       </NavLink>
+      <TodoForm onAdd={addTodo} />
       <div>
         <p>Search:</p>
         <input
@@ -78,7 +79,6 @@ function TodoPage() {
           deleteTodo,
         }}
       />
-      <TodoForm onAdd={addTodo} />
     </div>
   );
 }

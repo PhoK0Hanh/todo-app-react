@@ -17,7 +17,15 @@ function useTodos() {
   function addTodo(newTodo) {
     setTodos((prevTodos) => [
       ...prevTodos,
-      { id: Date.now(), text: newTodo, completed: false },
+      {
+        id: Date.now(),
+        text: newTodo.title,
+        completed: false,
+        priority: newTodo.priority,
+        category: newTodo.category,
+        important: newTodo.important,
+        description: newTodo.description,
+      },
     ]);
   }
 
